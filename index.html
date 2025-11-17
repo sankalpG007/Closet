@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closet11X1 | Virtual Wardrobe AI</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>/* --- CSS VARIABLES & RESET --- */
+:root {
+    --color-black: #0a0a0a;
+    --color-dark-grey: #1a1a1a;
+    --color-white: #ffffff;
+    --color-off-white: #fcfcfc;
+    --color-gold: #D4AF37; /* Classic Metallic Gold */
+    --color-gold-light: #F3E5AB;
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+    --spacing-section: 100px;
+    --transition: all 0.4s ease;
+    --shadow-soft: 0 10px 40px rgba(0,0,0,0.05);
+    --shadow-gold: 0 0 25px rgba(212, 175, 55, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--color-black);
+    background-color: var(--color-off-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+a { text-decoration: none; }
+ul { list-style: none; }
+
+/* --- UTILITIES --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.text-gold { color: var(--color-gold); }
+.bg-black { background-color: var(--color-black); color: var(--color-white); }
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 60px;
+    font-weight: 300;
+}
+
+/* --- ANIMATION CLASSES --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- HEADER / NAV --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    background: rgba(252, 252, 252, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-black);
+    z-index: 1001;
+}
+
+.logo span { color: var(--color-gold); }
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-links a {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    color: var(--color-black);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-gold);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after { width: 100%; }
+
+.burger {
+    display: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.burger i {
+    font-size: 1.5rem;
+    color: var(--color-black);
+}
+
+/* --- HERO SECTION (VIDEO & CARD) --- */
+.hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Slightly darker tint to help white card pop */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    
+    /* High Contrast Glass Card */
+    background: rgba(255, 255, 255, 0.90); /* Increased opacity for better readability */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    padding: 60px 40px;
+    border-radius: 30px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--color-black);
+    text-shadow: none;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #333; /* Darker text for contrast */
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+.btn-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+}
+
+.btn {
+    padding: 15px 40px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: 2px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.btn-primary {
+    background-color: var(--color-black);
+    color: var(--color-gold);
+    border: 1px solid var(--color-black);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-gold);
+    color: var(--color-black);
+    border-color: var(--color-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--color-black);
+    border: 1px solid var(--color-gold);
+}
+
+.btn-outline:hover {
+    background: var(--color-gold);
+    color: var(--color-black);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.1);
+}
+
+/* --- PROBLEM SECTION --- */
+.problem { padding: var(--spacing-section) 0; }
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    text-align: center;
+}
+
+.problem-card i {
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    font-weight: 100;
+}
+
+.problem-card h3 { font-size: 1.4rem; margin-bottom: 15px; }
+.problem-card p { color: #666; font-size: 0.95rem; }
+
+/* --- USP SECTION --- */
+.usp {
+    padding: var(--spacing-section) 0;
+    background-color: #fafafa;
+}
+
+.usp-flow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 60px;
+    position: relative;
+}
+
+.usp-flow::before {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: var(--color-gold);
+    z-index: 0;
+    opacity: 0.3;
+}
+
+.usp-step {
+    background: var(--color-white);
+    padding: 30px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-soft);
+    width: 28%;
+    text-align: center;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.usp-step:hover {
+    transform: translateY(-10px);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: var(--shadow-gold);
+}
+
+.usp-icon {
+    font-size: 2rem;
+    color: var(--color-black);
+    margin-bottom: 15px;
+}
+
+/* --- FEATURES SECTIONS --- */
+.features-p1 { padding: var(--spacing-section) 0; }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+}
+
+.feature-card {
+    background: var(--color-white);
+    padding: 40px;
+    box-shadow: var(--shadow-soft);
+    border-left: 3px solid transparent;
+    transition: var(--transition);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.feature-card:hover {
+    border-left: 3px solid var(--color-gold);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+}
+
+.feature-icon {
+    color: var(--color-gold);
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+
+.feature-text h3 { margin-bottom: 10px; font-size: 1.2rem; }
+
+.features-p2 {
+    padding: var(--spacing-section) 0;
+    background-color: var(--color-black);
+    color: var(--color-white);
+    position: relative;
+    overflow: hidden;
+}
+
+.features-p2::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, rgba(0,0,0,0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.features-p2 .section-subtitle { color: #aaa; }
+
+.p2-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.p2-card {
+    background: rgba(255,255,255,0.03);
+    padding: 30px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    text-align: center;
+    transition: var(--transition);
+}
+
+.p2-card:hover {
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    transform: translateY(-5px);
+}
+
+.p2-card i {
+    font-size: 2rem;
+    background: -webkit-linear-gradient(var(--color-gold), var(--color-white));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+/* --- WHY US & PRICING --- */
+.why-us { padding: var(--spacing-section) 0; }
+
+.benefits-row {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.benefit-item { width: 22%; }
+
+.benefit-item i {
+    font-size: 1.8rem;
+    border: 1px solid var(--color-black);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    transition: var(--transition);
+}
+
+.benefit-item:hover i {
+    background-color: var(--color-black);
+    color: var(--color-gold);
+    border-color: var(--color-black);
+    transform: scale(1.1) rotate(15deg);
+}
+
+.pricing {
+    padding: var(--spacing-section) 0;
+    background-color: #f5f5f5;
+}
+
+.pricing-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.price-card {
+    background: var(--color-white);
+    padding: 40px 30px;
+    width: 300px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    border-top: 3px solid transparent;
+    transition: var(--transition);
+}
+
+.price-card.premium {
+    background: var(--color-black);
+    color: var(--color-white);
+    transform: scale(1.1);
+    z-index: 2;
+    border-top: 3px solid var(--color-gold);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.price-card:hover:not(.premium) {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-gold);
+}
+
+.price-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 20px 0;
+    font-family: var(--font-heading);
+}
+
+.price span { font-size: 1rem; font-weight: 400; opacity: 0.7; }
+.price-card.premium .price { color: var(--color-gold); }
+.features-list li { margin-bottom: 15px; font-size: 0.9rem; opacity: 0.8; }
+
+.price-btn {
+    margin-top: 30px;
+    display: inline-block;
+    padding: 12px 30px;
+    border: 1px solid #ccc;
+    color: var(--color-black);
+    transition: var(--transition);
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.price-btn:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+}
+
+.price-card.premium .price-btn {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-black);
+    font-weight: 600;
+}
+
+.price-card.premium .price-btn:hover {
+    background: var(--color-white);
+    border-color: var(--color-white);
+    color: var(--color-black);
+}
+
+/* --- FOOTER --- */
+footer {
+    background-color: #050505;
+    color: var(--color-white);
+    padding: 0; 
+    text-align: center;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.footer-main-content {
+    padding: 50px 0 30px;
+}
+
+.footer-logo {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    display: inline-block;
+    letter-spacing: 2px;
+}
+
+.footer-links {
+    margin-bottom: 30px;
+}
+
+.footer-links a {
+    color: var(--color-white);
+    margin: 0 15px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    transition: var(--transition);
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-links a:hover {
+    opacity: 1;
+    color: var(--color-gold);
+}
+
+.social-media {
+    margin-bottom: 20px;
+}
+
+.social-text {
+    font-size: 0.85rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icon-link {
+    width: 45px;
+    height: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.social-icon-link:hover {
+    background-color: var(--color-gold);
+    color: var(--color-black);
+    border-color: var(--color-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+}
+
+.copyright-bar {
+    background-color: #121212;
+    padding: 25px 0;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    width: 100%;
+}
+
+/* --- SCROLL BUTTON --- */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-gold);
+    color: var(--color-black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.scroll-top-btn.visible { opacity: 1; visibility: visible; }
+.scroll-top-btn:hover {
+    background-color: var(--color-black);
+    color: var(--color-gold);
+    transform: scale(1.1);
+}
+
+/* --- RESPONSIVE (MOBILE STYLES - MUST BE LAST) --- */
+@media (max-width: 900px) {
+    nav {
+        padding: 15px 30px;
+    }
+    
+    .burger {
+        display: block;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.98);
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 0;
+        gap: 30px;
+        border-bottom: 1px solid #eee;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        opacity: 0;
+        transform: translateY(-20px);
+        pointer-events: none;
+        transition: all 0.4s ease;
+    }
+
+    .nav-links.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+    
+    /* Hero Font Adjustment for Mobile */
+    .hero-content h1 { font-size: 2.5rem; }
+    
+    /* Hero Card Adjustment for Mobile */
+    .hero-content {
+        width: 90%; 
+        padding: 40px 20px;
+    }
+
+    /* General Sections Mobile Layout */
+    .usp-flow { flex-direction: column; gap: 40px; }
+    .usp-flow::before { display: none; }
+    .usp-step { width: 100%; }
+    .features-grid { grid-template-columns: 1fr; }
+    .benefits-row { flex-wrap: wrap; gap: 30px; }
+    .benefit-item { width: 45%; }
+    .price-card.premium { transform: scale(1); }
+    .pricing-wrapper { flex-direction: column; }
+    .btn-group { flex-direction: column; gap: 15px; }
+}
+</style>
+    
+</head>
+<body>
+
+    <nav>
+        <a href="#hero" class="logo">CLOSET<span>11X1</span></a>
+        
+        <div class="burger">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="container hero-content reveal">
+            <h1>WEAR YOUR <br> INSPIRATION.</h1>
+            <p>AI that matches any outfit inspiration to your real closet.</p>
+            <div class="btn-group">
+                <button class="btn btn-primary">Try Demo</button>
+                <button class="btn btn-outline">Explore Features</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem">
+        <div class="container">
+            <h2 class="section-title">The Wardrobe Paradox</h2>
+            <p class="section-subtitle">A closet full of clothes, yet nothing to wear.</p>
+            
+            <div class="problem-grid">
+                <div class="problem-card reveal">
+                    <i class="fa-solid fa-shirt"></i>
+                    <h3>Outfit Confusion</h3>
+                    <p>Wasting 20 minutes every morning staring at hangers, unsure what goes with what.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <h3>Disorganized Chaos</h3>
+                    <p>Owning great pieces but forgetting they exist because they are buried in the back.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <i class="fa-brands fa-pinterest"></i>
+                    <h3>The Inspiration Gap</h3>
+                    <p>Saving hundreds of Pinterest looks but never knowing how to recreate them with what you own.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="usp">
+        <div class="container">
+            <h2 class="section-title">From Pin to Reality</h2>
+            <p class="section-subtitle">Match Any Outfit to Your Real Clothes.</p>
+
+            <div class="usp-flow">
+                <div class="usp-step reveal">
+                    <div class="usp-icon"><i class="fa-regular fa-image"></i></div>
+                    <h3>Upload Inspiration</h3>
+                    <p>Screenshot an outfit from Instagram, Pinterest, or TikTok.</p>
+                </div>
+                <div class="usp-step reveal">
+                    <div class="usp-icon"><i class="fa-solid fa-microchip text-gold"></i></div>
+                    <h3>AI Analysis</h3>
+                    <p>Our engine identifies textures, cuts, and colors.</p>
+                </div>
+                <div class="usp-step reveal">
+                    <div class="usp-icon"><i class="fa-solid fa-vest-patches"></i></div>
+                    <h3>Match Your Closet</h3>
+                    <p>Get instant outfit recipes using clothes you already own.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-p1" id="features">
+        <div class="container">
+            <h2 class="section-title">Essentials </h2>
+            <p class="section-subtitle">Digitize your style foundation.</p>
+
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                    <div class="feature-text">
+                        <h3>Digital Wardrobe</h3>
+                        <p>Catalog your entire closet in minutes with smart background removal.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div class="feature-text">
+                        <h3>Inspiration Analysis</h3>
+                        <p>Deconstruct complex outfits into simple search terms.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-regular fa-calendar-check"></i></div>
+                    <div class="feature-text">
+                        <h3>Outfit Planner</h3>
+                        <p>Schedule looks for the week ahead. Never stress in the morning.</p>
+                    </div>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <div class="feature-text">
+                        <h3>Smart Shopping List</h3>
+                        <p>Identify exactly which basic pieces your wardrobe is missing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-p2">
+        <div class="container">
+            <h2 class="section-title text-gold">Future of Fashion</h2>
+            <p class="section-subtitle">Advanced AI Capabilities coming soon.</p>
+
+            <div class="p2-grid">
+                <div class="p2-card reveal">
+                    <i class="fa-solid fa-user-astronaut"></i>
+                    <h3>Virtual Try-On</h3>
+                    <p>See how clothes look on your digital avatar before you wear them.</p>
+                </div>
+                <div class="p2-card reveal">
+                    <i class="fa-solid fa-robot"></i>
+                    <h3>AI Stylist</h3>
+                    <p>Personalized daily recommendations based on current trends.</p>
+                </div>
+                <div class="p2-card reveal">
+                    <i class="fa-solid fa-cloud-sun"></i>
+                    <h3>Weather Sync</h3>
+                    <p>Outfit suggestions automatically adapted to your local forecast.</p>
+                </div>
+                <div class="p2-card reveal">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <h3>Style Analytics</h3>
+                    <p>Data insights on your most worn items and color palette.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <div class="container">
+            <h2 class="section-title">Why Closet11X1</h2>
+            
+            <div class="benefits-row">
+                <div class="benefit-item reveal">
+                    <i class="fa-regular fa-clock"></i>
+                    <h3>Save Time</h3>
+                </div>
+                <div class="benefit-item reveal">
+                    <i class="fa-regular fa-star"></i>
+                    <h3>Elevate Style</h3>
+                </div>
+                <div class="benefit-item reveal">
+                    <i class="fa-solid fa-brain"></i>
+                    <h3>AI Intelligence</h3>
+                </div>
+                <div class="benefit-item reveal">
+                    <i class="fa-solid fa-leaf"></i>
+                    <h3>Sustainable</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Membership</h2>
+            <p class="section-subtitle">Invest in your personal brand.</p>
+
+            <div class="pricing-wrapper">
+                <div class="price-card reveal">
+                    <h3>Starter</h3>
+                    <div class="price">$0<span>/mo</span></div>
+                    <ul class="features-list">
+                        <li>Up to 30 Items</li>
+                        <li>Basic Outfit Planner</li>
+                        <li>Manual Uploads</li>
+                    </ul>
+                    <a href="#" class="price-btn">Sign Up</a>
+                </div>
+
+                <div class="price-card premium reveal">
+                    <h3>Gold</h3>
+                    <div class="price">$9.99<span>/mo</span></div>
+                    <ul class="features-list">
+                        <li>Unlimited Wardrobe</li>
+                        <li>AI Inspiration Match</li>
+                        <li>Smart Background Removal</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <a href="#" class="price-btn">Go Premium</a>
+                </div>
+
+                <div class="price-card reveal">
+                    <h3>Style Pro</h3>
+                    <div class="price">$19.99<span>/mo</span></div>
+                    <ul class="features-list">
+                        <li>All Gold Features</li>
+                        <li>Personal Stylist Chat</li>
+                        <li>Shopping Recommendations</li>
+                    </ul>
+                    <a href="#" class="price-btn">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+    <div class="container footer-main-content">
+        <div class="footer-logo">CLOSET<span>11X1</span></div>
+        
+        <div class="footer-links">
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#privacy">Privacy</a>
+            <a href="#contact">Contact</a>
+        </div>
+
+        <div class="social-media">
+            <p class="social-text">Connect with us</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon-link"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon-link"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-icon-link"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright-bar">
+        <div class="container">
+            &copy; 2025 Closet11X1 Virtual Wardrobe AI. All rights reserved.
+        </div>
+    </div>
+</footer>
+    
+    <a href="#hero" class="scroll-top-btn">
+        <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // --- SCROLL REVEAL ANIMATION ---
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 100;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        reveal();
+        
+        // --- SCROLL-TO-TOP BUTTON VISIBILITY ---
+        const scrollTopBtn = document.querySelector('.scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        // --- MOBILE MENU TOGGLE (FIXED) ---
+        const burger = document.querySelector('.burger');
+        const nav = document.querySelector('.nav-links');
+        const navLinks = document.querySelectorAll('.nav-links li a');
+
+        // Toggle Menu on Click
+        burger.addEventListener('click', () => {
+            nav.classList.toggle('active');
+        });
+
+        // Close Menu when a Link is Clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+            });
+        });
+        
+        // --- SMOOTH SCROLL ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+    </script>
+</body>
+</html>
